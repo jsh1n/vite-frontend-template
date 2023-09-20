@@ -1,11 +1,15 @@
 # vite-frontend-template
 template repository for using Vite framework.
 
-## Functions
-* Create release automatically with Github actions
-* Classify PR with title
+## Features
+- Create release automatically with Github actions
 
-## Dependencies
-### Github Actions
-* autolabeler
-* dependabot
+## Branch
+### prefixes
+  - feature/**
+  - bug/**
+  - chore/**
+  - refactor/**
+  - documentation/**
+    - or edit *.md
+  - enhancement/**
