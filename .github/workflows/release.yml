@@ -1,0 +1,36 @@
+name: Releaser
+on:
+  push:
+    tags:
+      - "main"
+jobs:
+  release:
+    name: Create GH Release
+    runs-on: ubuntu-latest
+    permissions: write-all
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Restore cached Primes
+        id: cache-primes-restore
+        uses: actions/cache/restore@v3
+        with:
+          path: |
+            path/to/dependencies
+            some/other/dependencies
+          key: ${{ runner.os }}-primes
+
+      - name: Build Artifacts
+        run: yarn run build
+
+      - name: Save Primes
+        id: cache-primes-save
+        uses: actions/cache/save@v3
+        with:
+          path: |
+            path/to/dependencies
+            some/other/dependencies
+          key: ${{ steps.cache-primes-restore.outputs.cache-primary-key }}
