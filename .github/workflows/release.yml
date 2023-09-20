@@ -2,17 +2,35 @@ name: Releaser
 on:
   push:
     tags:
-      - "*"
+      - "main"
 jobs:
   release:
-    env:
-      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    name: Create GH Release
     runs-on: ubuntu-latest
     permissions: write-all
-    name: Create GH Release
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     steps:
       - uses: actions/checkout@v3
+
+      - name: Restore cached Primes
+        id: cache-primes-restore
+        uses: actions/cache/restore@v3
+        with:
+          path: |
+            path/to/dependencies
+            some/other/dependencies
+          key: ${{ runner.os }}-primes
+
       - name: Build Artifacts
-        run: ./scripts/release.sh
-      - name: Create Release
-        run: gh release create ${GITHUB_REF#refs/*/} -t ${GITHUB_REF#refs/*/} ${APP_NAME}_chrome.zip ${APP_NAME}_firefox.zip --generate-notes
+        run: yarn run build
+
+      - name: Save Primes
+        id: cache-primes-save
+        uses: actions/cache/save@v3
+        with:
+          path: |
+            path/to/dependencies
+            some/other/dependencies
+          key: ${{ steps.cache-primes-restore.outputs.cache-primary-key }}
