@@ -1,4 +1,3 @@
-// Keyの配列
 const recoilKeys = [
     // add to your unique key here
 ] as const
