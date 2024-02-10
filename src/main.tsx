@@ -9,7 +9,6 @@ import {
 } from "recoil"
 
 import Root from './routes/root.tsx'
-import './index.css'
 
 const router = createBrowserRouter([
   {
